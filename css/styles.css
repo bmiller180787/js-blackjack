@@ -7,18 +7,94 @@ img {
     height: auto;
 }
 
+h1 {
+text-align: center;
+    margin: 2rem auto;
+}
+
 .playArea {
     width: 50%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-content: center;
-    justify-content: space-around;
+    justify-content: space-between;
     /*display: none;*/
 }
-.card1, .card2, .card3 {
-    display: flex;
-    width: 30%;
-    border: 0.1rem solid #000000;
+
+.player1cards, .player2cards {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    justify-content: space-around;
 }
 
+.card1, .card2, .card3,
+.card4, .card5, .card6 {
+    width: 7rem;
+    height: 10rem;
+    border: 0.1rem solid #000000;
+    border-radius: 5%;
+    background-color: #FFFFFF;
+    /*display: none;*/
+}
+
+.card1 {
+    grid-column-start: 7;
+    grid-column-end: 10;
+    grid-row-start: 1;
+}
+
+.card2 {
+    grid-column-start: 8;
+    grid-column-end: 11;
+    grid-row-start: 1;
+}
+
+.card3 {
+    grid-column-start: 9;
+    grid-column-end: 12;
+    grid-row-start: 1;
+}
+
+.card4 {
+    grid-column-start: 7;
+    grid-column-end: 10;
+    grid-row-start: 1;
+}
+
+.card5 {
+    grid-column-start: 8;
+    grid-column-end: 11;
+    grid-row-start: 1;
+}
+
+.card6 {
+    grid-column-start: 9;
+    grid-column-end: 12;
+    grid-row-start: 1;
+}
+
+.movetofront {
+    z-index: 1;
+}
+
+.enlarge {
+    width: 8rem;
+    height: 12rem;
+    position: absolute;
+    left: 50%;
+    top: 17%;
+    z-index: 2;
+}
+
+.gamecontrols {
+    margin: 2rem auto;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.player1Score, .player2Score {
+    margin: 2rem auto;
+    text-align: center;
+}
