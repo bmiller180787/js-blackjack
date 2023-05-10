@@ -1,8 +1,20 @@
 const suites = [
-    'Diamonds',
-    'Hearts',
-    'Spades',
-    'Clubs'
+    {
+        name: 'Diamonds',
+        colour: 'red'
+    },
+    {
+        name: 'Hearts',
+        colour: 'red'
+    },
+    {
+        name: 'Clubs',
+        colour: 'black'
+    },
+    {
+        name: 'Spades',
+        colour: 'black'
+    },
 ]
 
 const faces = [
@@ -17,25 +29,25 @@ const faces = [
     {
         name: '4',
         value: 4
-    },    {
+    }, {
         name: '5',
         value: 5
-    },    {
+    }, {
         name: '6',
         value: 6
-    },    {
+    }, {
         name: '7',
         value: 7
-    },    {
+    }, {
         name: '8',
         value: 8
-    },    {
+    }, {
         name: '9',
         value: 9
-    },    {
+    }, {
         name: '10',
         value: 10
-    },    {
+    }, {
         name: 'Jack',
         value: 10
     },
@@ -54,50 +66,53 @@ const faces = [
 ]
 
 let fullDeck = []
-// let shuffledDeck = []
-suites.forEach( (suite) => {
-        faces.forEach((face) => {
-            fullDeck.push({card: name = `${face.name} of ${suite}` , value: face.value}
-            )
-        })
+let player1Cards = []
+let player2Cards = []
+let player1Score = 0
+let player2Score = 0
+
+suites.forEach((suite) => {
+    faces.forEach((face) => {
+        fullDeck.push({card: name = `${face.name} of ${suite.name}`, value: face.value, colour: suite.colour}
+        )
+    })
 })
 
-// Attempt to do a manual shuffle
-// function shuffleDeck (Deck) {
-//
-//     let reps = (Math.floor(Math.random() * (5 - 3) + 3))
-//     for (let i = 0; i < reps; i++) {
-//         let randomCardIndex = (Math.floor(Math.random() * (51 - 1) + 1))
-//         let x =[]
-//         x = Deck
-//         let y = x.splice(randomCardIndex)
-//         Deck = []
-//         Deck = y.concat(x)
-//         console.log(Deck)
-        // console.log(x)
-        // console.log(y)
-//     }
-//
-// }
-// console.log(shuffleDeck(fullDeck))
+function shuffleDeck(array) {
 
-player1Cards = []
-player2Cards = []
+    let a = [...array]
+    let reps = (Math.floor(Math.random() * (200 - 150) + 150))
+    for (let i = 0; i < reps; i++) {
+        let firstCut = (Math.floor(Math.random() * ((array.length - 1) - 1) + 1))
+        let secondCut = (Math.floor(Math.random() * (((array.length - 1) - firstCut) - 1) + 1))
 
-function dealPlayer1Card (deck)
-{
-    player1Cards.push(deck[0])
-    fullDeck.shift()
+        let b = a.splice(firstCut)
+        let c = b.splice(secondCut)
+        let y = c.concat(b, a)
+
+        a = []
+        a = [...y]
+    }
+    fullDeck = [...a]
 }
 
-function dealPlayer2Card (deck)
-{
-    player2Cards.push(deck[0])
+function dealPlayer1Card() {
+    player1Cards.push(fullDeck[0])
     fullDeck.shift()
+    if (player1Cards.length > 2) {
+        player1Score += player1Cards[player1Cards.length - 1].value
+    }
 }
 
-function resetDeck ()
-{
+function dealPlayer2Card() {
+    player2Cards.push(fullDeck[0])
+    fullDeck.shift()
+    if (player2Cards.length > 2) {
+        player2Score += player2Cards[player2Cards.length - 1].value
+    }
+}
+
+function resetDeck() {
     for (let i = 0; i < player1Cards.length; i++) {
         fullDeck.push(player1Cards[i])
     }
@@ -112,19 +127,29 @@ function resetDeck ()
 
 }
 
-function dealCards ()
-{
-    dealPlayer1Card(fullDeck)
-    dealPlayer2Card(fullDeck)
-    dealPlayer1Card(fullDeck)
-    dealPlayer2Card(fullDeck)
+function dealCards() {
+    dealPlayer1Card()
+    dealPlayer2Card()
+    dealPlayer1Card()
+    dealPlayer2Card()
+    calculatePlayer1Score()
+    calculatePlayer2Score()
 }
 
-console.log(player1Cards)
-console.log(player2Cards)
-console.log(fullDeck)
+function calculatePlayer1Score() {
+    player1Cards.forEach((card) => {
+        player1Score += card.value
+    })
+}
 
-resetDeck()
-console.log(fullDeck)
-console.log(player1Cards)
-console.log(player2Cards)
+function calculatePlayer2Score() {
+    player2Cards.forEach((card) => {
+        player2Score += card.value
+    })
+}
+
+function clearHands() {
+    player1Score = 0
+    player2Score = 0
+    resetDeck()
+}
