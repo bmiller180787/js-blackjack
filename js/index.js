@@ -1,3 +1,39 @@
+let deal = document.querySelector('.dealButton')
+let hit = document.querySelector('.hitButton')
+let stick = document.querySelector('.stickButton')
+let newGame = document.querySelector('.newGameButton')
+let player1Scoring = document.querySelector('.player1Score p')
+let player2Scoring = document.querySelector('.player2Score p')
+
+deal.addEventListener('click', () => {
+    dealCards()
+})
+
+hit.addEventListener('click', () => {
+
+    if (gameplayControllers.player1stick === false) {
+        dealPlayer1Card()
+        player1Scoring.textContent = 'Player 1 score : ' + gameplayControllers.player1Score
+    } else {
+        dealPlayer2Card()
+        player2Scoring.textContent = 'Player 2 score : ' + gameplayControllers.player2Score
+    }
+
+})
+
+stick.addEventListener('click', () => {
+
+    if (gameplayControllers.player1stick === false) {
+        gameplayControllers.player1stick = true
+    } else {
+        gameplayControllers.player2stick = true
+    }
+})
+
+newGame.addEventListener('click', () => {
+    clearHands()
+})
+
 const suites = [
     {
         name: 'Diamonds',
@@ -65,18 +101,27 @@ const faces = [
     },
 ]
 
-let fullDeck = []
-let player1Cards = []
-let player2Cards = []
-let player1Score = 0
-let player2Score = 0
+const gameplayControllers = {
+    fullDeck: [],
+    player1Cards: [],
+    player1stick: false,
+    player2Cards: [],
+    player2stick: false,
+    player1Score: 0,
+    player2Score: 0
+}
 
 suites.forEach((suite) => {
     faces.forEach((face) => {
-        fullDeck.push({card: name = `${face.name} of ${suite.name}`, value: face.value, colour: suite.colour}
-        )
+        let card = {
+            name: `${face.name} of ${suite.name}`,
+            value: face.value,
+            colour: suite.colour
+        }
+        gameplayControllers.fullDeck.push(card)
     })
 })
+shuffleDeck()
 
 function shuffleDeck(array) {
 
@@ -93,37 +138,42 @@ function shuffleDeck(array) {
         a = []
         a = [...y]
     }
-    fullDeck = [...a]
+    gameplayControllers.fullDeck = [...a]
 }
 
 function dealPlayer1Card() {
-    player1Cards.push(fullDeck[0])
-    fullDeck.shift()
-    if (player1Cards.length > 2) {
-        player1Score += player1Cards[player1Cards.length - 1].value
+    gameplayControllers.player1Cards.push(gameplayControllers.fullDeck[0])
+    gameplayControllers.fullDeck.shift()
+
+    if (gameplayControllers.player1Cards.length > 2) {
+        gameplayControllers.player1Score += gameplayControllers.player1Cards[gameplayControllers.player1Cards.length - 1].value
     }
+
+    player1Scoring.textContent = 'Player 1 score : ' + gameplayControllers.player1Score
 }
 
 function dealPlayer2Card() {
-    player2Cards.push(fullDeck[0])
-    fullDeck.shift()
-    if (player2Cards.length > 2) {
-        player2Score += player2Cards[player2Cards.length - 1].value
+    gameplayControllers.player2Cards.push(gameplayControllers.fullDeck[0])
+    gameplayControllers.fullDeck.shift()
+    if (gameplayControllers.player2Cards.length > 2) {
+        gameplayControllers.player2Score += gameplayControllers.player2Cards[gameplayControllers.player2Cards.length - 1].value
     }
+
+    player2Scoring.textContent = 'Player 2 score : ' + gameplayControllers.player2Score
 }
 
-function resetDeck() {
-    for (let i = 0; i < player1Cards.length; i++) {
-        fullDeck.push(player1Cards[i])
+function resetHands() {
+    for (let i = 0; i < gameplayControllers.player1Cards.length; i++) {
+        gameplayControllers.fullDeck.push(gameplayControllers.player1Cards[i])
     }
 
-    player1Cards = []
+    gameplayControllers.player1Cards = []
 
-    for (let i = 0; i < player2Cards.length; i++) {
-        fullDeck.push(player2Cards[i])
+    for (let i = 0; i < gameplayControllers.player2Cards.length; i++) {
+        gameplayControllers.fullDeck.push(gameplayControllers.player2Cards[i])
     }
 
-    player2Cards = []
+    gameplayControllers.player2Cards = []
 
 }
 
@@ -134,22 +184,34 @@ function dealCards() {
     dealPlayer2Card()
     calculatePlayer1Score()
     calculatePlayer2Score()
+
+    player1Scoring.textContent = 'Player 1 score : ' + gameplayControllers.player1Score
+    player2Scoring.textContent = 'Player 2 score : ' + gameplayControllers.player2Score
 }
 
 function calculatePlayer1Score() {
-    player1Cards.forEach((card) => {
-        player1Score += card.value
+    gameplayControllers.player1Cards.forEach((card) => {
+        gameplayControllers.player1Score += card.value
     })
 }
 
 function calculatePlayer2Score() {
-    player2Cards.forEach((card) => {
-        player2Score += card.value
+    gameplayControllers.player2Cards.forEach((card) => {
+        gameplayControllers.player2Score += card.value
     })
 }
 
 function clearHands() {
-    player1Score = 0
-    player2Score = 0
-    resetDeck()
+    gameplayControllers.player1Score = 0
+    gameplayControllers.player2Score = 0
+    resetHands()
+    gameplayControllers.player1stick = false
+    gameplayControllers.player2stick = false
+
+    player1Scoring.textContent = 'Player 1 score : ' + gameplayControllers.player1Score
+    player2Scoring.textContent = 'Player 2 score : ' + gameplayControllers.player2Score
+}
+
+function generatePlayer1Hand () {
+
 }
