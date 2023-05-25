@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Website Template</title>
+    <title>Blackjack Game</title>
 
     <meta name="description" content='Blackjack'>
     <meta name="author" content="Brent Miller">
@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="css/styles.css">
 
     <script defer src="js/index.js"></script>
-    <script defer src="js/listeners.js"></script>
 
 </head>
 <body>
@@ -28,8 +27,12 @@
                 <p>Player 1 score : 0</p>
             </div>
         </section>
+        <div class="modal modalhidden">
+            <p></p>
+        </div>
         <section class="player2">
             <h1 class="player2heading">Player 2</h1>
+
             <div class="player2cards">
             </div>
             <div class="player2Score">
@@ -38,16 +41,16 @@
         </section>
         <section class="gamecontrols">
             <div class="dealButton">
-                <button class=Button">Deal</button>
+                <button class="button">Deal</button>
             </div>
-            <div class="hitButton">
-                <button class="Button">Hit</button>
+            <div class="hitButton hidden">
+                <button class="button">Hit</button>
             </div>
-            <div class="stickButton">
-                <button class=Button">Stick</button>
+            <div class="stickButton hidden">
+                <button class="button">Stick</button>
             </div>
-            <div class="newGameButton">
-                <button class=Button">New Game</button>
+            <div class="newGameButton hidden">
+                <button class="button">New Game</button>
             </div>
         </section>
     </div>

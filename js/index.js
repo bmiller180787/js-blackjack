@@ -4,34 +4,57 @@ let stick = document.querySelector('.stickButton')
 let newGame = document.querySelector('.newGameButton')
 let player1Scoring = document.querySelector('.player1Score p')
 let player2Scoring = document.querySelector('.player2Score p')
-
+let modal = document.querySelector('.modal')
+let modalText = document.querySelector('.modal p')
 deal.addEventListener('click', () => {
-    dealCards()
+    if (gameplayControllers.player1Cards.length === 0 && gameplayControllers.player2Cards.length === 0) {
+        dealCards()
+        deal.classList.add('hidden')
+        hit.classList.remove('hidden')
+        stick.classList.remove('hidden')
+    }
 })
 
 hit.addEventListener('click', () => {
-
-    if (gameplayControllers.player1stick === false) {
-        dealPlayer1Card()
-        player1Scoring.textContent = 'Player 1 score : ' + gameplayControllers.player1Score
-    } else {
-        dealPlayer2Card()
-        player2Scoring.textContent = 'Player 2 score : ' + gameplayControllers.player2Score
+    if (gameplayControllers.player1Cards.length !== 0 || gameplayControllers.player2Cards.length !== 0) {
+        if (gameplayControllers.player1Score <= 21) {
+            if (!gameplayControllers.player1stick) {
+                dealPlayer1Card()
+                player1Scoring.textContent = 'Player 1 score : ' + gameplayControllers.player1Score
+            } else if (gameplayControllers.player2Score <= 21) {
+                if (!gameplayControllers.player2stick) {
+                    dealPlayer2Card()
+                    player2Scoring.textContent = 'Player 2 score : ' + gameplayControllers.player2Score
+                }
+            }
+        }
     }
-
 })
 
 stick.addEventListener('click', () => {
 
-    if (gameplayControllers.player1stick === false) {
+    if (!gameplayControllers.player1stick) {
         gameplayControllers.player1stick = true
-    } else {
+    } else if (!gameplayControllers.player2stick) {
         gameplayControllers.player2stick = true
+        checkWinner()
+        hit.classList.add('hidden')
+        stick.classList.add('hidden')
+    } else {
+        checkWinner()
+        hit.classList.add('hidden')
+        stick.classList.add('hidden')
     }
 })
 
 newGame.addEventListener('click', () => {
     clearHands()
+    deal.classList.remove('hidden')
+    modal.classList.add('modalhidden')
+    modalText.textContent = ''
+    newGame.classList.add('hidden')
+    hit.classList.add('hidden')
+    stick.classList.add('hidden')
 })
 
 const suites = [
@@ -52,7 +75,6 @@ const suites = [
         colour: 'black'
     },
 ]
-
 const faces = [
     {
         name: '2',
@@ -100,7 +122,6 @@ const faces = [
         value: 11
     },
 ]
-
 const gameplayControllers = {
     fullDeck: [],
     player1Cards: [],
@@ -121,7 +142,7 @@ suites.forEach((suite) => {
         gameplayControllers.fullDeck.push(card)
     })
 })
-shuffleDeck()
+shuffleDeck(gameplayControllers.fullDeck)
 
 function shuffleDeck(array) {
 
@@ -141,6 +162,22 @@ function shuffleDeck(array) {
     gameplayControllers.fullDeck = [...a]
 }
 
+function checkWinner() {
+    if (gameplayControllers.player1Score === gameplayControllers.player2Score) {
+        modal.classList.remove('modalhidden')
+        modalText.textContent = `It's a draw!`
+        newGame.classList.remove('hidden')
+    } else if (gameplayControllers.player1Score > gameplayControllers.player2Score) {
+        modal.classList.remove('modalhidden')
+        modalText.textContent = 'Player 1 wins!'
+        newGame.classList.remove('hidden')
+    } else {
+        modal.classList.remove('modalhidden')
+        modalText.textContent = 'Player 2 wins!'
+        newGame.classList.remove('hidden')
+    }
+}
+
 function dealPlayer1Card() {
     gameplayControllers.player1Cards.push(gameplayControllers.fullDeck[0])
     gameplayControllers.fullDeck.shift()
@@ -150,6 +187,14 @@ function dealPlayer1Card() {
     }
 
     player1Scoring.textContent = 'Player 1 score : ' + gameplayControllers.player1Score
+
+    if (gameplayControllers.player1Score > 21) {
+        modal.classList.remove('modalhidden')
+        modalText.textContent = 'Player 1 went bust - Player 2 wins!'
+        newGame.classList.remove('hidden')
+        hit.classList.add('hidden')
+        stick.classList.add('hidden')
+    }
 }
 
 function dealPlayer2Card() {
@@ -160,9 +205,17 @@ function dealPlayer2Card() {
     }
 
     player2Scoring.textContent = 'Player 2 score : ' + gameplayControllers.player2Score
+
+    if (gameplayControllers.player2Score > 21) {
+        modal.classList.remove('modalhidden')
+        modalText.textContent = 'Player 2 went bust - Player 1 wins!'
+        newGame.classList.remove('hidden')
+        hit.classList.add('hidden')
+        stick.classList.add('hidden')
+    }
 }
 
-function resetHands() {
+function resetCards() {
     for (let i = 0; i < gameplayControllers.player1Cards.length; i++) {
         gameplayControllers.fullDeck.push(gameplayControllers.player1Cards[i])
     }
@@ -192,6 +245,8 @@ function dealCards() {
 function calculatePlayer1Score() {
     gameplayControllers.player1Cards.forEach((card) => {
         gameplayControllers.player1Score += card.value
+
+
     })
 }
 
@@ -204,14 +259,14 @@ function calculatePlayer2Score() {
 function clearHands() {
     gameplayControllers.player1Score = 0
     gameplayControllers.player2Score = 0
-    resetHands()
     gameplayControllers.player1stick = false
     gameplayControllers.player2stick = false
+    resetCards()
 
     player1Scoring.textContent = 'Player 1 score : ' + gameplayControllers.player1Score
     player2Scoring.textContent = 'Player 2 score : ' + gameplayControllers.player2Score
 }
 
-function generatePlayer1Hand () {
+function generatePlayer1Hand() {
 
 }

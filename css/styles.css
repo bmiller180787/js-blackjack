@@ -1,5 +1,5 @@
 *, *::before, *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 img {
@@ -8,17 +8,67 @@ img {
 }
 
 h1 {
-text-align: center;
+    text-align: center;
     margin: 2rem auto;
 }
 
-.player1 {
-    height: 50%;
+.player1, .player2 {
+    min-height: 15rem;
+    width: 100%;
+}
+
+.player1cards, .player2cards {
+    min-height: 8rem;
+    width: 100%;
+}
+
+body {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url("../images/blackjack.jpg")
 }
 
 .gamecontrols {
     width: 50%;
     margin: auto;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
 }
+
+.modalhidden {
+    opacity: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal {
+    display: block;
+    position: absolute;
+    top: 35%;
+    left: 32%;
+    background-color: #CCCCCC;
+    border-radius: 0.5rem;
+    min-width: 20rem;
+}
+
+.modal p {
+    margin: 3.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.player1Score, .player2Score {
+    text-align: center;
+}
+
+.newGameButton, .stickButton,
+.hitButton, .dealButton {
+    padding: 0.2rem;
+    margin-top: 2rem;
+}
+
+.button {
+    cursor: pointer;
+}
+
