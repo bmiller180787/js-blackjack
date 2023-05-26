@@ -6,6 +6,8 @@ let player1Scoring = document.querySelector('.player1Score p')
 let player2Scoring = document.querySelector('.player2Score p')
 let modal = document.querySelector('.modal')
 let modalText = document.querySelector('.modal p')
+let player1CardArea = document.querySelector('.player1cards')
+let player2CardArea = document.querySelector('.player2cards')
 deal.addEventListener('click', () => {
     if (gameplayControllers.player1Cards.length === 0 && gameplayControllers.player2Cards.length === 0) {
         dealCards()
@@ -181,6 +183,7 @@ function checkWinner() {
 function dealPlayer1Card() {
     gameplayControllers.player1Cards.push(gameplayControllers.fullDeck[0])
     gameplayControllers.fullDeck.shift()
+    generatePlayer1Card()
 
     if (gameplayControllers.player1Cards.length > 2) {
         gameplayControllers.player1Score += gameplayControllers.player1Cards[gameplayControllers.player1Cards.length - 1].value
@@ -200,6 +203,8 @@ function dealPlayer1Card() {
 function dealPlayer2Card() {
     gameplayControllers.player2Cards.push(gameplayControllers.fullDeck[0])
     gameplayControllers.fullDeck.shift()
+    generatePlayer2Card()
+
     if (gameplayControllers.player2Cards.length > 2) {
         gameplayControllers.player2Score += gameplayControllers.player2Cards[gameplayControllers.player2Cards.length - 1].value
     }
@@ -265,8 +270,27 @@ function clearHands() {
 
     player1Scoring.textContent = 'Player 1 score : ' + gameplayControllers.player1Score
     player2Scoring.textContent = 'Player 2 score : ' + gameplayControllers.player2Score
+
+    player1CardArea.innerHTML = ""
+    player2CardArea.innerHTML = ""
 }
 
-function generatePlayer1Hand() {
+function generatePlayer1Card() {
+    if (!gameplayControllers.player1stick) {
+        let i = gameplayControllers.player1Cards.length - 1
 
+        player1CardArea.innerHTML = '<div class="card"><img src="images/' + gameplayControllers.player1Cards[i].name +
+            '.png" alt="The ' + gameplayControllers.player1Cards[i].name +
+            '"> </div>'
+    }
+}
+
+function generatePlayer2Card() {
+    if (!gameplayControllers.player2stick) {
+        let i = gameplayControllers.player2Cards.length - 1
+
+        player2CardArea.innerHTML = '<div class="card"><img src="images/' + gameplayControllers.player2Cards[i].name +
+            '.png" alt="The ' + gameplayControllers.player2Cards[i].name +
+            '"> </div>'
+    }
 }
