@@ -279,7 +279,7 @@ function generatePlayer1Card() {
     if (!gameplayControllers.player1stick) {
         let i = gameplayControllers.player1Cards.length - 1
 
-        player1CardArea.innerHTML = '<div class="card"><img src="images/' + gameplayControllers.player1Cards[i].name +
+        player1CardArea.innerHTML += '<div class="card"><img src="images/' + gameplayControllers.player1Cards[i].name +
             '.png" alt="The ' + gameplayControllers.player1Cards[i].name +
             '"> </div>'
     }
@@ -289,7 +289,7 @@ function generatePlayer2Card() {
     if (!gameplayControllers.player2stick) {
         let i = gameplayControllers.player2Cards.length - 1
 
-        player2CardArea.innerHTML = '<div class="card"><img src="images/' + gameplayControllers.player2Cards[i].name +
+        player2CardArea.innerHTML += '<div class="card"><img src="images/' + gameplayControllers.player2Cards[i].name +
             '.png" alt="The ' + gameplayControllers.player2Cards[i].name +
             '"> </div>'
     }
